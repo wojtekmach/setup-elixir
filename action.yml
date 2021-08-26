@@ -28,8 +28,9 @@ runs:
         key: mix-deps-${{ hashFiles('**/mix.lock') }}
 
     - run: |
-        echo "Running mix deps.get"
+      echo "::group::mix deps.get"
         mix deps.get
+        echo "::endgroup::"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
@@ -38,7 +39,6 @@ runs:
         mix format --check-formatted
       shell: bash
       working-directory: ${{ inputs.working-directory }}
-      if: ${{ inputs.lint }}
 
     - run: |
         echo "Running mix deps.unlock --check-unused"
