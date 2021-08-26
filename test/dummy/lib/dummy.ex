@@ -13,6 +13,7 @@ defmodule Dummy do
 
   """
   def hello do
+    a = 1
     :world
   end
 end
