@@ -35,16 +35,8 @@ runs:
       working-directory: ${{ inputs.working-directory }}
 
     - run: |
-        echo "::group::mix format --check-formatted"
-        mix format --check-formatted
-        echo "::endgroup::"
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-
-    - run: |
-        echo "::group::mix deps.unlock --check-unused"
+        echo "mix deps.unlock --check-unused"
         mix deps.unlock --check-unused
-        echo "::endgroup::"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
@@ -59,5 +51,11 @@ runs:
         echo "::group::mix compile --warnings-as-errors"
         mix compile --warnings-as-errors
         echo "::endgroup::"
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - run: |
+        echo "mix format --check-formatted"
+        mix format --check-formatted
       shell: bash
       working-directory: ${{ inputs.working-directory }}
