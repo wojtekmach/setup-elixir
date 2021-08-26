@@ -10,7 +10,7 @@ inputs:
   lint:
     description: "Whether to run lint checks"
   working-directory:
-    description: "The directory to run commands in"
+    description: "The directory to run commands in, defaults to '.'"
     default: "."
 
 runs:
@@ -35,10 +35,8 @@ runs:
       working-directory: ${{ inputs.working-directory }}
 
     - run: |
-        if [[ -n "${{ inputs.lint }}" ]]; then
-          echo "mix deps.unlock --check-unused"
-          mix deps.unlock --check-unused
-        fi
+        echo "mix deps.unlock --check-unused"
+        mix deps.unlock --check-unused
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
@@ -50,18 +48,14 @@ runs:
       working-directory: ${{ inputs.working-directory }}
 
     - run: |
-        if [[ -n "${{ inputs.lint }}" ]]; then
-          echo "::group::mix compile --warnings-as-errors"
-          MIX_ENV=test mix compile --warnings-as-errors
-          echo "::endgroup::"
-        fi
+        echo "::group::mix compile --warnings-as-errors"
+        MIX_ENV=test mix compile --warnings-as-errors
+        echo "::endgroup::"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
     - run: |
-        if [[ -n "${{ inputs.lint }}" ]]; then
-          echo "mix format --check-formatted"
-          mix format --check-formatted
-        fi
+        echo "mix format --check-formatted"
+        mix format --check-formatted
       shell: bash
       working-directory: ${{ inputs.working-directory }}
