@@ -1,0 +1,36 @@
+name: "Setup Elixir"
+
+inputs:
+  otp-version:
+    description: "OTP version"
+    required: true
+  elixir-version:
+    description: "Elixir version"
+    required: true
+  lint:
+    description: "Whether to run lint checks"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{inputs.otp-version}}
+        elixir-version: ${{inputs.elixir-version}}
+
+    - uses: actions/cache@v2
+      with:
+        path: deps
+        key: mix-deps-${{ hashFiles('**/mix.lock') }}
+    - run: mix deps.get
+
+    - run: mix format --check-formatted
+      if: ${{ inputs.lint }}
+
+    - run: mix deps.unlock --check-unused
+      if: ${{ inputs.lint }}
+
+    - run: mix deps.compile
+
+    - run: mix compile --warnings-as-errors
+      if: ${{ inputs.lint }}
