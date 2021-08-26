@@ -12,6 +12,7 @@ jobs:
 
     defaults:
       run:
+        shell: bash
         working-directory: test/dummy
 
     steps:
