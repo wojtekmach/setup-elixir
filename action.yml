@@ -1,0 +1,61 @@
+name: "Setup Elixir"
+
+inputs:
+  otp-version:
+    description: "OTP version"
+    required: true
+  elixir-version:
+    description: "Elixir version"
+    required: true
+  lint:
+    description: "Whether to run lint checks"
+  working-directory:
+    description: "The directory to run commands in, defaults to '.'"
+    default: "."
+
+runs:
+  using: "composite"
+
+  steps:
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ inputs.otp-version }}
+        elixir-version: ${{ inputs.elixir-version }}
+
+    - uses: actions/cache@v2
+      with:
+        path: ${{ inputs.working-directory }}/deps
+        key: mix-deps-${{ hashFiles('**/mix.lock') }}
+
+    - run: |
+        echo "::group::mix deps.get"
+        mix deps.get
+        echo "::endgroup::"
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - run: |
+        echo "mix deps.unlock --check-unused"
+        mix deps.unlock --check-unused
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - run: |
+        echo "::group::mix deps.compile"
+        MIX_ENV=test mix deps.compile
+        echo "::endgroup::"
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - run: |
+        echo "::group::mix compile --warnings-as-errors"
+        MIX_ENV=test mix compile --warnings-as-errors
+        echo "::endgroup::"
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+
+    - run: |
+        echo "mix format --check-formatted"
+        mix format --check-formatted
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}

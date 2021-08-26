@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          otp-version: "24"
+          elixir-version: "1.12"
+          working-directory: test/dummy
+      - run: mix test
+        working-directory: test/dummy
