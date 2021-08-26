@@ -42,14 +42,14 @@ runs:
 
     - run: |
         echo "::group::mix deps.compile"
-        mix deps.compile
+        MIX_ENV=test mix deps.compile
         echo "::endgroup::"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
     - run: |
         echo "::group::mix compile --warnings-as-errors"
-        mix compile --warnings-as-errors
+        MIX_ENV=test mix compile --warnings-as-errors
         echo "::endgroup::"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
