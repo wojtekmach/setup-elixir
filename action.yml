@@ -12,6 +12,12 @@ inputs:
 
 runs:
   using: "composite"
+
+  defaults:
+    run:
+      shell: bash
+      working-directory: test/dummy
+
   steps:
     - uses: erlef/setup-beam@v1
       with:
@@ -22,17 +28,13 @@ runs:
       with:
         path: deps
         key: mix-deps-${{ hashFiles('**/mix.lock') }}
+
     - run: mix deps.get
-      shell: bash
 
     - run: mix format --check-formatted
-      shell: bash
 
     - run: mix deps.unlock --check-unused
-      shell: bash
 
     - run: mix deps.compile
-      shell: bash
 
     - run: mix compile --warnings-as-errors
-      shell: bash
