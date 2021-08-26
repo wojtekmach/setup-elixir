@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: .
+      - uses: ./
         with:
           otp-version: "24"
           elixir-version: "1.12"
