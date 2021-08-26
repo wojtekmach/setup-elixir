@@ -9,6 +9,8 @@ inputs:
     required: true
   lint:
     description: "Whether to run lint checks"
+  working-directory:
+    default: "."
 
 runs:
   using: "composite"
@@ -16,30 +18,30 @@ runs:
   steps:
     - uses: erlef/setup-beam@v1
       with:
-        otp-version: ${{inputs.otp-version}}
-        elixir-version: ${{inputs.elixir-version}}
+        otp-version: ${{ inputs.otp-version }}
+        elixir-version: ${{ inputs.elixir-version }}
 
     - uses: actions/cache@v2
       with:
-        path: test/dummy/deps
+        path: ${{ inputs.working-directory }}/deps
         key: mix-deps-${{ hashFiles('**/mix.lock') }}
 
     - run: mix deps.get
       shell: bash
-      working-directory: test/dummy
+      working-directory: ${{ inputs.working-directory }}
 
     - run: mix format --check-formatted
       shell: bash
-      working-directory: test/dummy
+      working-directory: ${{ inputs.working-directory }}
 
     - run: mix deps.unlock --check-unused
       shell: bash
-      working-directory: test/dummy
+      working-directory: ${{ inputs.working-directory }}
 
     - run: mix deps.compile
       shell: bash
-      working-directory: test/dummy
+      working-directory: ${{ inputs.working-directory }}
 
     - run: mix compile --warnings-as-errors
       shell: bash
-      working-directory: test/dummy
+      working-directory: ${{ inputs.working-directory }}
