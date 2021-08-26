@@ -28,7 +28,7 @@ runs:
         key: mix-deps-${{ hashFiles('**/mix.lock') }}
 
     - run: |
-      echo "::group::mix deps.get"
+        echo "::group::mix deps.get"
         mix deps.get
         echo "::endgroup::"
       shell: bash
