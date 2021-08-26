@@ -23,14 +23,19 @@ runs:
         path: deps
         key: mix-deps-${{ hashFiles('**/mix.lock') }}
     - run: mix deps.get
+      shell: bash
 
     - run: mix format --check-formatted
+      shell: bash
       if: ${{ inputs.lint }}
 
     - run: mix deps.unlock --check-unused
+      shell: bash
       if: ${{ inputs.lint }}
 
     - run: mix deps.compile
+      shell: bash
 
     - run: mix compile --warnings-as-errors
+      shell: bash
       if: ${{ inputs.lint }}
