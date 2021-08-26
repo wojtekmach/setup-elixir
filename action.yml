@@ -10,6 +10,7 @@ inputs:
   lint:
     description: "Whether to run lint checks"
   working-directory:
+    description: "The directory to run commands in, defaults to '.'"
     default: "."
 
 runs:
@@ -37,6 +38,7 @@ runs:
         mix format --check-formatted
       shell: bash
       working-directory: ${{ inputs.working-directory }}
+      if: ${{ inputs.lint }}
 
     - run: |
         echo "Running mix deps.unlock --check-unused"
