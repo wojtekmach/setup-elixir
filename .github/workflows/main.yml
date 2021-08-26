@@ -16,6 +16,7 @@ jobs:
         with:
           otp-version: "24"
           elixir-version: "1.12"
+          lint: "true"
           working-directory: test/dummy
       - run: mix test
         working-directory: test/dummy
