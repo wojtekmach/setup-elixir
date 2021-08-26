@@ -53,8 +53,11 @@ runs:
         if [[ -n "${{ inputs.lint }}" ]]; then
           echo "::group::mix compile --warnings-as-errors"
           MIX_ENV=test mix compile --warnings-as-errors
-          echo "::endgroup::"
+        else
+          echo "::group::mix compile"
+          MIX_ENV=test mix compile
         fi
+        echo "::endgroup::"
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
