@@ -26,22 +26,32 @@ runs:
         path: ${{ inputs.working-directory }}/deps
         key: mix-deps-${{ hashFiles('**/mix.lock') }}
 
-    - run: mix deps.get
+    - run: |
+        echo "Running mix deps.get"
+        mix deps.get
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - run: mix format --check-formatted
+    - run: |
+        echo "Running mix format --check-formatted"
+        mix format --check-formatted
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - run: mix deps.unlock --check-unused
+    - run: |
+        echo "Running mix deps.unlock --check-unused"
+        mix deps.unlock --check-unused
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - run: mix deps.compile
+    - run: |
+        echo "Running mix deps.compile"
+        mix deps.compile
       shell: bash
       working-directory: ${{ inputs.working-directory }}
 
-    - run: mix compile --warnings-as-errors
+    - run: |
+        echo "Running mix compile --warnings-as-errors"
+        mix compile --warnings-as-errors
       shell: bash
       working-directory: ${{ inputs.working-directory }}
